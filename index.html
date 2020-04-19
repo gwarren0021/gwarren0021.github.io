@@ -14,14 +14,13 @@
   <div class="container">
       <h2>Select a Major</h2>
       <div style='padding: 5px;'> 
-         <button type='button' class="btn btn-primary" onClick="getData('CIT')">CIT Majors</button> 
-         <button type='button' class="btn btn-primary" onClick="getData('BUS')">Business Majors</button> 
+         <button type='button' class="btn btn-primary" onClick=getData('CIT')>CIT Majors</button> 
+         <button type='button' class="btn btn-primary" onClick=getData('BUS')>Business Majors</button> 
           
       </div>
   
   </body>
 
- <!-- Handlebars template -->
   <script type="text/x-handlebars-template" id="tableTemplate">
       <table class="table table-striped">
           <tr><th>Name</th><th>Major</th><th>Midterm</th><th>Final</th></tr>
@@ -33,7 +32,6 @@
       </table>
   </script>
 
-  <!-- application ajax code -->
   <script>
 
   function getData(selected_major) {      
@@ -55,7 +53,7 @@
             document.getElementById('majorTable').innerHTML = compiledHtml; 
         }
         else {
-            document.querySelector('#majorTable').innerHTML = "There was an error, or majors not found";
+            document.querySelector('#majorTable').innerHTML = "Error";
         }
      }
      
