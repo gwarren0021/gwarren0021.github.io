@@ -14,8 +14,8 @@
   <div class="container">
       <h2>Select a Major</h2>
       <div style='padding: 5px;'> 
-         <button type='button' class="btn btn-primary" onClick=getData('CIT')>CIT Majors</button> 
-         <button type='button' class="btn btn-primary" onClick=getData('BUS')>Business Majors</button> 
+         <button type='button' class="btn btn-primary" onClick=getData("CIT")>CIT Majors</button> 
+         <button type='button' class="btn btn-primary" onClick=getData("BUS")>Business Majors</button> 
           
       </div>
   
@@ -36,7 +36,8 @@
 
   function getData(selected_major) {      
       var request = new XMLHttpRequest();
-      request.open('GET', 'cit5students.json');    
+      var url="cit5students.json";
+      request.open('GET', url);    
  
       request.onload = function() {                
          var data = JSON.parse(request.responseText);   
