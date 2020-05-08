@@ -1,65 +1,70 @@
-<!DOCTYPE html><html>
-<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Students with Majors</title>
+<!DOCTYPE html>
+<html><head><title>List of Advisees</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script> 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
-    <style> .btn{margin: 7px} </style>
 </head>
+<body ng-app = "homeApp">
 
-<body>
-  <div class="container">
-      <h2>Select a Major</h2>
-      <div style='padding: 5px;'> 
-         <button type='button' class="btn btn-primary" onClick="getData('CIT')">CIT Majors</button> 
-         <button type='button' class="btn btn-primary" onClick="getData('BUS')">Business Majors</button> 
-          
-      </div>
-  <div id='majorTable'></div> 
-  </body>
+<div class="container">
+<nav class="navbar navbar-inverse">
 
-  <script type="text/x-handlebars-template" id="tableTemplate">
-      <table class="table table-striped">
-          <tr><th>Name</th><th>Major</th><th>Midterm</th><th>Final</th></tr>
-             {{#each rows}}
-                <tr>
-                     <td>{{name}}</td><td>{{major}}</td><td>{{midterm}}</td><td>{{final}}</td>
-                </tr>
-             {{/each}}
-      </table>
-  </script>
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Website</a>
+    </div>
+    <div>
+       <ul class="nav navbar-nav">
+           <li class="active"><a href="index.html">Welcome</a></li>
+           <li><a href="gpa.html">All GPAs</a></li>
+       </ul>
+    </div>
 
-  <script>
+</nav>    <!-- end nav-bar -->
 
-  function getData(selected_major) {      
-      var request = new XMLHttpRequest();
-      var url="cit5students.json";
-      request.open('GET', url);    
- 
-      request.onload = function() {                
-         var data = JSON.parse(request.responseText);   
+<div ng-controller = "homeCtrl">
 
-         major_items = data.filter(getMajor)       
-         function getMajor(item) {
-            return item.major == selected_major;  
-         }
+	<h2>List of all Advisees</h2>
+    		    
+    		<p><input type='text' ng-model='search_text'> Enter Search Text</p>
+          	<table class="table table-bordered table-striped">
+          		<tr>
+             			<th>SID</th>
+              			<th>Last Name</th>
+              			<th>First Name</th>
+				<th>Credit Hours</th>
+				<th>GPA Points</th>
+				<th>Major</th>
+          		</tr>
+			<tr ng-repeat="Advisees | filter:search_text">
+				<td>{{student.sid}}</td>
+				<td>{{student.last_name}}</td>
+				<td>{{student.first_name}}</td>
+				<td>{{student.credit_hours}}</td>
+				<td>{{student.gpa_points}}</td>
+				<td>{{student.major}}</td>
+			</tr>
+          	
+     		</table>
         
-        if (request.status == 200) {    
-            var templateText = document.getElementById('tableTemplate').innerHTML;
-            var compiledTemplateText = Handlebars.compile(templateText);       
-            compiledHtml = compiledTemplateText({ rows: major_items })          
-            document.getElementById('majorTable').innerHTML = compiledHtml; 
-        }
-        else {
-            document.querySelector('#majorTable').innerHTML = "Error";
-        }
-     }
-     
-     request.send(null);
-  }
 
+        
+</div>   <!-- end homeCtrl -->
+</div>   <!-- end class= 'container' -->
+
+<script>
+var app = angular.module('homeApp', []);
+
+app.controller('homeCtrl', function($scope, $http) {
+  
+     $http.get("students.json")
+	.then(function (response){
+		$scope.students=response.data;
+	});
+ 
+	   
+});
+		  
 </script>
-</html>
+</body></html>
